@@ -65,11 +65,6 @@
                         <i class="bi bi-arrow-left"></i> Quay lại
                     </a>
                 </div>
-                <div class="text-start mb-4">
-                    <a href="${pageContext.request.contextPath}/view/staff/PurchaseOrderView.jsp" class="btn btn-primary">
-                        <i class="bi bi-arrow-right"></i> Debug
-                    </a>
-                </div>
                 <h4 class="fw-bold mb-3">Chi tiết các lần nhập</h4>
 
                 <p><b>Nhà cung cấp:</b> ${supplierName} </p>
@@ -91,12 +86,8 @@
                         <tbody>
                         <c:if test="${not empty listPurchaseOrder}">
                             <c:forEach var="po" items="${listPurchaseOrder}">
-                                <tr>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/PurchaseOrderDetailServlet?purchaseOrderId=${po.id}">
-                                                ${po.id}
-                                        </a>
-                                    </td>
+                                <tr onclick="window.location.href='${pageContext.request.contextPath}/PurchaseOrderDetailServlet?purchaseOrderId=${po.id}'" style="cursor: pointer;">
+                                    <td>${po.id}</td>
                                     <td><fmt:formatDate value="${po.orderDate}" pattern="dd/MM/yyyy"/></td>
                                     <td>${po.warehouseStaff.name}</td>
                                     <td>${po.totalQuantity}</td>

@@ -5,6 +5,7 @@
 <%@ page import="model.SparePart" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     Member member = (Member) session.getAttribute("manager");
@@ -12,6 +13,8 @@
         response.sendRedirect(request.getContextPath() + "/view/member/LoginView.jsp?err=timeout");
         return;
     }
+    PurchaseOrder po = (PurchaseOrder) session.getAttribute("purchaseOrder");
+    ArrayList<PurchaseOrderItem> listItem = po.getPurchaseOrderItems();
 %>
 
 <!DOCTYPE html>
@@ -37,17 +40,6 @@
     </style>
 </head>
 <body>
-
-<%
-    Member manager = (Member) session.getAttribute("manager");
-    if (manager == null) {
-        response.sendRedirect(request.getContextPath() + "/view/member/LoginView.jsp?err=timeout");
-        return;
-    }
-    PurchaseOrder po = (PurchaseOrder) session.getAttribute("purchaseOrder");
-    ArrayList<PurchaseOrderItem> listItem = po.getPurchaseOrderItems();
-%>
-
 <div class="sidebar">
     <div class="brand">🚗 GaraMan</div>
     <div class="menu">
@@ -105,7 +97,7 @@
                             <th>Tên phụ tùng</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
-                            <th>Ghi chú</th>
+                            <th>Thành tiền</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -118,8 +110,10 @@
                             <td><%= sp.getId() %></td>
                             <td><%= sp.getName() %></td>
                             <td><%= ps.getQuantity() %></td>
-                            <td><%= ps.getPrice() %></td>
-                            <td>VND</td>
+                            <td><fmt:formatNumber value="<%= ps.getPrice() %>" type="currency" currencySymbol="₫"/></td>
+                            <td>
+                                <fmt:formatNumber value="<%= ps.getPrice()*ps.getQuantity() %>" type="currency" currencySymbol="₫"/>
+                            </td>
                         </tr>
                         <% } %>
                         <% } else { %>
@@ -131,6 +125,7 @@
                         <% } %>
                         </tbody>
                     </table>
+                    <p><b>Tổng tiền: </b> <fmt:formatNumber value="<%= po.getTotalAmount() %>" type="currency" currencySymbol="₫"/> </p>
                 </div>
 
                 <div class="text-start mt-4">

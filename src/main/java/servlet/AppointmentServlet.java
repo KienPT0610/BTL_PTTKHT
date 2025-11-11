@@ -30,6 +30,11 @@ public class AppointmentServlet extends HttpServlet {
             // lay du lieu tu form
             String dateStr = req.getParameter("datetime");
             String note = req.getParameter("note");
+            String username =  req.getParameter("username");
+            String email = req.getParameter("email");
+            String tel  = req.getParameter("telephone");
+            String address = req.getParameter("address");
+
 
             Member member = (Member) req.getSession().getAttribute("customer");
 
@@ -37,7 +42,12 @@ public class AppointmentServlet extends HttpServlet {
             Date datetime = sdf.parse(dateStr);
 
             Customer c = new Customer();
-            c.setId(member.getId());
+            c.setId(member.getId()); // lay id tu member sau khi da login
+            // set thuoc tinh cho customer (khong lay tu member vi co the customer muon thay doi)
+            c.setUsername(username);
+            c.setEmail(email);
+            c.setTel(tel);
+            c.setAddress(address);
 
             Appointment a = new Appointment();
             a.setDateTime(datetime);
@@ -53,12 +63,12 @@ public class AppointmentServlet extends HttpServlet {
                 req.setAttribute("message", "Appointment creation failed!");
             }
 
-            RequestDispatcher rd = req.getRequestDispatcher("/view/customer/CustomerHomeView.jsp");
+            RequestDispatcher rd = req.getRequestDispatcher("/view/customer/AppointmentView.jsp");
             rd.forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("message", "Something went wrong!");
-            req.getRequestDispatcher("/view/customer/CustomerHomeView.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/customer/AppointmentView.jsp").forward(req, resp);
         }
     }
 }

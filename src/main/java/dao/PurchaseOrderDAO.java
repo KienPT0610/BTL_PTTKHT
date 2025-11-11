@@ -125,6 +125,8 @@ public class PurchaseOrderDAO extends DAO {
                 item.setSparePart(sp);
 
                 items.add(item);
+
+                purchaseOrder.setTotalAmount(purchaseOrder.getTotalAmount() + item.getPrice() * item.getQuantity());
             }
         }
         return purchaseOrder;
