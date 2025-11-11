@@ -1,0 +1,21 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.login-container {
+    background: #fff;
+}
+
+.btn-primary {
+    background: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+    border-color: #007bff;
+}
